@@ -72,7 +72,7 @@ public class ReportListFragment extends Fragment {
 
         @Override
         public void onClick(View v){
-            Intent intent = ReportActivity.newIntent(getActivity(), mReport.getId());
+            Intent intent = ReportPagerActivity.newIntent(getActivity(), mReport.getId());
             startActivity(intent);
         }
     }

@@ -67,7 +67,7 @@ public class ReportFragment extends Fragment {
 
 
         mDateButton = (Button) v.findViewById(R.id.report_date);
-        mDateButton.setText(mReport.getdate().toString());
+        //mDateButton.setText(mReport.getdate().toString());
         mDateButton.setEnabled(false);
 
         mResolvedCheckBox = (CheckBox) v.findViewById(R.id.report_resolved);
