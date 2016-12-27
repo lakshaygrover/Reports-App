@@ -3,6 +3,7 @@
     <string name="report_title_hint">Add a title</string>
     <string name="report_title_label">Title</string>
     <string name="report_detail_label">Details</string>
-    <string name="report_resolved_label">Reslved</string>
+    <string name="report_resolved_label">Resolved</string>
+    <string name="date_picker_title">Date of Report</string>
     <string name="button_label">OK</string>
 </resources>
