@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 /**
  * Created by LAKSHAY on 12/26/2016.
  */
-public class ReportPagerActivity extends FragmentActivity {
+public class ReportPagerActivity extends AppCompatActivity {
     public static final String EXTRA_REPORT_id = "com.lakshaygrover2926.reportintent.report_id";
     private ViewPager mViewPager;
     private List<Report> mReports;

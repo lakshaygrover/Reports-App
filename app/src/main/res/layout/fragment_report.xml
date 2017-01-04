@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/report_title_label"
-        style="?android:listSeparatorTextViewStyle"/>
+        android:textSize="20dp"
+        android:textAlignment="center"
+        />
 
     <EditText
         android:id="@+id/report_title"
@@ -23,7 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/report_detail_label"
-
         style="?android:listSeparatorTextViewStyle"/>
     
     <Button

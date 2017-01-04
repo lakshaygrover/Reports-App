@@ -22,12 +22,13 @@ public class ReportStore {
 
     private ReportStore(Context context){
         mReports = new ArrayList<>();
-        for(int i = 0;i<100;i++){
-            Report report = new Report();
-            report.setTitle("Report #"+i);
-            report.setResolved(i%2==0);
-            mReports.add(report);
-        }
+
+
+
+    }
+
+    public void addReport(Report r){
+        mReports.add(r);
     }
 
     public List<Report> getReports() {

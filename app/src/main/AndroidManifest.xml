@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReportPagerActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:parentActivityName=".ReportListActivity">
         </activity>
     </application>
 

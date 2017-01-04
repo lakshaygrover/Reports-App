@@ -3,9 +3,13 @@ package com.lakshaygrover2926.reportintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -18,14 +22,45 @@ import java.util.List;
  */
 public class ReportListFragment extends Fragment {
 
+    private  static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
     private RecyclerView mReportRecyclerView;
     private ReportAdapter mAdapter;
+    private boolean mSubtitleVisible;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.menu_item_new_report:
+                Report report = new Report();
+                ReportStore.get(getActivity()).addReport(report);
+                Intent intent = ReportPagerActivity.newIntent(getActivity(), report.getId());
+                startActivity(intent);
+                return true;
+            case R.id.menu_show_subtitle:
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
+                return true;
+            default:
+                return  super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedIntanceState){
         View view = inflator.inflate(R.layout.fragment_report_list, container, false);
         mReportRecyclerView = (RecyclerView) view.findViewById(R.id.report_recycler_view);
         mReportRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if(savedIntanceState!=null){
+            mSubtitleVisible = savedIntanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
         updateUI();
         return view;
 
@@ -35,6 +70,40 @@ public class ReportListFragment extends Fragment {
     public void onResume(){
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fargment_report_list, menu);
+
+        MenuItem subtitleItem = menu.findItem(R.id.menu_show_subtitle);
+        if(mSubtitleVisible){
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        }
+        else{
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
+    }
+
+    private void updateSubtitle(){
+        ReportStore reportStore = ReportStore.get(getActivity());
+        int reportCount = reportStore.getReports().size();
+        String sub = Integer.toString(reportCount);
+        String subtitle = getString(R.string.subtitle_format, reportCount);
+
+        if(!mSubtitleVisible){
+            subtitle = null;
+        }
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
     public void updateUI() {
@@ -47,6 +116,7 @@ public class ReportListFragment extends Fragment {
         else{
             mAdapter.notifyDataSetChanged();
         }
+        updateSubtitle();
     }
 
 
