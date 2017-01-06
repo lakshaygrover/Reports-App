@@ -13,6 +13,7 @@
         android:textAlignment="center"
         />
 
+
     <EditText
         android:id="@+id/report_title"
         android:layout_width="match_parent"
