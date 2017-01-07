@@ -2,6 +2,7 @@ package com.lakshaygrover2926.reportintent;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -47,12 +48,37 @@ public class ReportStore {
     }
 
     public List<Report> getReports() {
-        return new ArrayList<>();
+        List<Report> reports = new ArrayList<>();
+        ReportCursorWrapper cursorWrapper = queryReports(null, null);
+        try{
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()){
+                reports.add(cursorWrapper.getReport());
+                cursorWrapper.moveToNext();
+            }
+        }finally{
+            cursorWrapper.close();
+        }
+
+        return reports;
     }
 
     public Report getReport(UUID id){
 
-        return null;
+        ReportCursorWrapper cursorWrapper = queryReports(
+                ReportDBSchema.ReportTable.Cols.UUID + " = ?",
+                new String[]{id.toString()});
+
+
+        try{
+            if(cursorWrapper.getCount() == 0){
+                return null;
+            }
+            cursorWrapper.moveToFirst();
+            return cursorWrapper.getReport();
+        }finally {
+            cursorWrapper.close();
+        }
     }
 
     private static ContentValues getContentValues(Report report){
@@ -63,5 +89,19 @@ public class ReportStore {
         values.put(ReportDBSchema.ReportTable.Cols.RESOLVED, report.isResolved()? 1: 0);
 
         return values;
+    }
+
+    private ReportCursorWrapper queryReports(String whereClause, String[] whereArgs){
+        Cursor cursor = mDatabase.query(
+                ReportDBSchema.ReportTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        return new ReportCursorWrapper(cursor);
     }
 }

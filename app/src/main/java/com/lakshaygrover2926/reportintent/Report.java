@@ -36,7 +36,13 @@ public class Report {
 
 
     public Report(){
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+
+    }
+
+    public Report(UUID id){
+        mId = id;
+        mdate = new Date();
     }
 
     public UUID getId(){

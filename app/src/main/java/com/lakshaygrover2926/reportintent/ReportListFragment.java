@@ -114,6 +114,7 @@ public class ReportListFragment extends Fragment {
             mReportRecyclerView.setAdapter(mAdapter);
         }
         else{
+            mAdapter.setReports(reports);
             mAdapter.notifyDataSetChanged();
         }
         updateSubtitle();
@@ -172,6 +173,10 @@ public class ReportListFragment extends Fragment {
         @Override
         public int getItemCount(){
             return mReports.size();
+        }
+
+        public void setReports(List<Report> reports){
+            mReports = reports;
         }
     }
 }

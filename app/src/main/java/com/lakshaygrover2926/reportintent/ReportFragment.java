@@ -52,6 +52,12 @@ public class ReportFragment extends Fragment {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        ReportStore.get(getActivity()).updateReport(mReport);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_report, container, false);
         mTitleField = (EditText) v.findViewById(R.id.report_title);
